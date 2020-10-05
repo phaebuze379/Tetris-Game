@@ -9,13 +9,15 @@ namespace Tetris_Game
 {
     class Block
     {
-        public int x, y, sizeX, sizeY;
+        public int x, y, sizeX, sizeY, YSpeed;
 
         public Block(int _x, int _y, int _size)
         {
             x = _x;
             y = _y;
             sizeX = _size;
+
+            YSpeed = 5;
         }
 
         public Block(int _x, int _y, int _sizeX, int _sizeY)
@@ -24,20 +26,62 @@ namespace Tetris_Game
             y = _y;
             sizeX = _sizeX;
             sizeY = _sizeY;
+
+            YSpeed = 5;
         }
 
-        public void move(int _speed)
+        public void move()
         {
-            y += _speed;
+            y += YSpeed;
         }
 
-        public Boolean Collision(Block b)
+        public Boolean CollisionBottom(Block b)
         {
-            Rectangle box = new Rectangle(b.x, b.y, b.sizeX, b.sizeX);
-            Rectangle bottom = new Rectangle(0, 550, 830, 20);
+            Rectangle box = new Rectangle(b.x, b.y, 50, 50);
+            Rectangle bottom = new Rectangle(0, 545, 830, 20);
 
             return box.IntersectsWith(bottom);
 
         }
+
+        public Boolean CollisionLeft(Block b)
+        {
+            Rectangle box = new Rectangle(b.x, b.y, 50, 50);
+            Rectangle left = new Rectangle(50, 0, 15, 977);
+
+            return box.IntersectsWith(left);
+
+        }
+
+        public Boolean CollisionRight(Block b)
+        {
+            Rectangle box = new Rectangle(b.x, b.y, 50, 50);
+            Rectangle right = new Rectangle(495, 0, 15, 977);
+
+            return box.IntersectsWith(right);
+
+        }
+
+        public Boolean Collision(Block b)
+        {
+            Rectangle boxRec = new Rectangle(b.x, b.y, 50, 50);
+            Rectangle currentRec = new Rectangle(x, y + 5, sizeX, sizeY);
+
+            return boxRec.IntersectsWith(currentRec);
+
+        }
+
+        //public Boolean CollisionSide(Block b)
+        //{
+        //    //Rectangle boxRec = new Rectangle(b.x, b.y, 50, 50);
+        //    //Rectangle currentRec = new Rectangle(x, y + 5, sizeX, sizeY);
+
+            
+
+        //    // return boxRec.IntersectsWith(currentRec);
+
+        //}
+
+
     }
 }

@@ -17,6 +17,7 @@ namespace Tetris_Game
         public GameScreen()
         {
             InitializeComponent();
+            label2.Visible = false;
         }
 
         private void playButton_Click(object sender, EventArgs e)
@@ -31,7 +32,8 @@ namespace Tetris_Game
 
         private void instructionButton_Click(object sender, EventArgs e)
         {
-
+            label2.Visible = true;
         }
+
     }
 }

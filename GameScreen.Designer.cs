@@ -31,6 +31,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.instructionButton = new System.Windows.Forms.Button();
             this.playButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -67,11 +68,23 @@
             this.playButton.UseVisualStyleBackColor = false;
             this.playButton.Click += new System.EventHandler(this.playButton_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(64, 631);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(681, 40);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Use left and right arrows to move shapes.";
+            // 
             // GameScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.playButton);
             this.Controls.Add(this.instructionButton);
             this.Controls.Add(this.label1);
@@ -87,5 +100,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button instructionButton;
         private System.Windows.Forms.Button playButton;
+        private System.Windows.Forms.Label label2;
     }
 }

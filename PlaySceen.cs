@@ -8,62 +8,103 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Threading;
+using System.Media;
+
 
 namespace Tetris_Game
 {
     public partial class PlaySceen : UserControl
     {
-
-
-
         SolidBrush white = new SolidBrush(Color.White);
         SolidBrush blue = new SolidBrush(Color.Blue);
-        Pen pen = new Pen(Color.White);
+        Pen pen = new Pen(Color.Black);
 
-       
-        Rectangle left;
-        Rectangle right;
+        SoundPlayer theme = new SoundPlayer(Properties.Resources.Tetris_theme);
 
-        Boolean leftArrowDown, rightArrowDown;
+        Boolean leftArrowDown, rightArrowDown, blockStop;
 
         List<Block> boxes = new List<Block>();
+        List<Block> boxesCurrent = new List<Block>();
 
         Random num = new Random();
-        int place;
+        int shape;
 
         Block bottom1 = new Block(0, 550, 830, 20);
+        Block left1 = new Block(35, 0, 15, 977);
+        Block right1 = new Block(500, 0, 15, 977);
         Block box;
-
+        Block box2;
+        Block box3;
+        
         public PlaySceen()
         {
             InitializeComponent();
-            makeLines();
+
+            theme.PlayLooping();
+
             makeBlocks();
 
         }
 
-
-
-        public void makeLines()
-        {
-
-
-            left.X = 20;
-            left.Y = 0;
-            left.Width = 15;
-            left.Height = this.Height;
-
-            right.X = this.Width - 15 - 20;
-            right.Y = 0;
-            right.Width = 15;
-            right.Height = this.Height;
-        }
-
         public void makeBlocks()
         {
-            place = num.Next(35, this.Width - 35 - 35);
-            box = new Block(place, 0, 35);
+           
+            shape = num.Next(0, 5);
+
+            switch (shape)
+            {
+                case 1: //line h
+                    box = new Block(50, 0, 50, 50);
+                    box2 = new Block(100, 0, 50, 50);
+                    box3 = new Block(150, 0, 50, 50);
+                    boxesCurrent.Add(box);
+                    boxesCurrent.Add(box2);
+                    boxesCurrent.Add(box3);
+                    blockStop = false;
+                    break;
+                case 2: //L shape
+                    box = new Block(50, 0, 50, 50);
+                    box2 = new Block(50, 50, 50, 50);
+                    box3 = new Block(100, 0, 50, 50);
+                    boxesCurrent.Add(box);
+                    boxesCurrent.Add(box2);
+                    boxesCurrent.Add(box3);
+                    blockStop = false;
+                    break;
+                case 3: //T shape
+                    box = new Block(50, 0, 50, 50);
+                    box2 = new Block(100, 50, 50, 50);
+                    box3 = new Block(100, 0, 50, 50);
+                    boxesCurrent.Add(box);
+                    boxesCurrent.Add(box2);
+                    boxesCurrent.Add(box3);
+                    blockStop = false;
+                    break;
+                case 4: //line v
+                    box = new Block(50, 0, 50, 50);
+                    box2 = new Block(50, 50, 50, 50);
+                    box3 = new Block(50, 100, 50, 50);
+                    boxesCurrent.Add(box);
+                    boxesCurrent.Add(box2);
+                    boxesCurrent.Add(box3);
+                    blockStop = false;
+                    break;
+            }
+        }
+
+        public void doneBlocks()
+        {
+            box.YSpeed = 0;
+            box2.YSpeed = 0;
+            box3.YSpeed = 0;
+
+            blockStop = true;
             boxes.Add(box);
+            boxes.Add(box2);
+            boxes.Add(box3);
+            boxesCurrent.Remove(box);
+            boxesCurrent.Remove(box2);
+            boxesCurrent.Remove(box3);
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -98,50 +139,132 @@ namespace Tetris_Game
 
         private void gameLoop_Tick(object sender, EventArgs e)
         {
-
-            
             #region move
 
-            foreach (Block b in boxes)
+            box.move();
+            box2.move();
+            box3.move();
+
+            foreach (Block b in boxesCurrent)
             {
-                b.move(5);
-                if (bottom1.Collision(b))
+                if (bottom1.CollisionBottom(b))
                 {
+                    box.YSpeed = 0;
+                    box2.YSpeed = 0;
+                    box3.YSpeed = 0;
+                    
 
-                    b.move(-5);
-                    //makeBlocks();
+                    blockStop = true;
+                    boxes.Add(box);
+                    boxes.Add(box2);
+                    boxes.Add(box3);
+                    boxesCurrent.Remove(box);
+                    boxesCurrent.Remove(box2);
+                    boxesCurrent.Remove(box3);
+                    
+                    break;
                 }
-
             }
-            
 
-            //makeBlocks();
+            foreach (Block b in boxesCurrent)
+            {
+                if (left1.CollisionLeft(b))
+                {
+                    leftArrowDown = false;
 
+                }
+            }
+
+            foreach (Block b in boxesCurrent)
+            {
+                if (right1.CollisionRight(b))
+                {
+                    rightArrowDown = false;
+                }
+            }
             #endregion
 
             #region arrows
 
             if (leftArrowDown == true)
             {
-                label1.Text = "true";
-                box.x -= 5;
+                box.x -= 50;
+                box2.x -= 50;
+                box3.x -= 50;
+                if ()
+                leftArrowDown = false;
             }
-            else
-            {
-
-            }
-
             if (rightArrowDown == true)
             {
-                box.x += 5;
+                box.x += 50;
+                box2.x += 50;
+                box3.x += 50;
+                rightArrowDown = false;
             }
-            else
-            {
-
-            }
-
 
             #endregion
+
+            #region collision
+
+            foreach (Block b in boxes)
+            {
+                if (box.Collision(b))
+                {
+                    doneBlocks();
+
+                    break;
+
+                }
+            }
+            foreach (Block b in boxes)
+            {
+                if (box2.Collision(b))
+                {
+                    doneBlocks();
+
+                    break;
+
+                }
+            }
+            foreach (Block b in boxes)
+            {
+                if (box3.Collision(b))
+                {
+                    doneBlocks();
+
+                    break;
+
+                }
+            }
+
+
+
+
+            foreach (Block b in boxes)
+            {
+                if (b.y <= 15)
+                {
+                    gameLoop.Stop();
+                    theme.Stop();
+                    Form f = this.FindForm();
+                    f.Controls.Remove(this);
+                    GameOver go = new GameOver();
+                    f.Controls.Add(go);
+                        
+                    go.Focus();
+
+                    break;
+
+                }
+            }
+
+            if (blockStop == true)
+            {
+                makeBlocks();
+            }
+
+            #endregion
+
             Refresh();
         }
 
@@ -149,18 +272,20 @@ namespace Tetris_Game
         {
 
             e.Graphics.FillRectangle(white, bottom1.x, bottom1.y, bottom1.sizeX, bottom1.sizeY);
-            e.Graphics.FillRectangle(white, left);
-            e.Graphics.FillRectangle(white, right);
-            foreach (Block b in boxes)
+            foreach (Block b in boxesCurrent)
             {
-
                 e.Graphics.FillRectangle(blue, b.x, b.y, b.sizeX, b.sizeX);
+                e.Graphics.DrawRectangle(pen, b.x, b.y, b.sizeX, b.sizeX);
 
             }
+            e.Graphics.FillRectangle(white, left1.x, left1.y, left1.sizeX, left1.sizeY);
+            e.Graphics.FillRectangle(white, right1.x, right1.y, right1.sizeX, right1.sizeY);
+            foreach (Block b in boxes)
+            {
+                e.Graphics.FillRectangle(blue, b.x, b.y, b.sizeX, b.sizeX);
+                e.Graphics.DrawRectangle(pen, b.x, b.y, b.sizeX, b.sizeX);
 
-
+            }
         }
-
-
     }
 }
