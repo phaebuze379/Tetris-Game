@@ -35,7 +35,7 @@ namespace Tetris_Game
         Block box;
         Block box2;
         Block box3;
-        
+
         public PlaySceen()
         {
             InitializeComponent();
@@ -48,7 +48,7 @@ namespace Tetris_Game
 
         public void makeBlocks()
         {
-           
+
             shape = num.Next(0, 5);
 
             switch (shape)
@@ -94,17 +94,18 @@ namespace Tetris_Game
 
         public void doneBlocks()
         {
-            box.YSpeed = 0;
-            box2.YSpeed = 0;
-            box3.YSpeed = 0;
+            foreach (Block b in boxesCurrent)
+            {
+                b.YSpeed = 0;
+                boxes.Add(b);
+
+
+            }
+
+            boxesCurrent.Clear();
 
             blockStop = true;
-            boxes.Add(box);
-            boxes.Add(box2);
-            boxes.Add(box3);
-            boxesCurrent.Remove(box);
-            boxesCurrent.Remove(box2);
-            boxesCurrent.Remove(box3);
+
         }
 
         private void GameScreen_PreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
@@ -141,27 +142,13 @@ namespace Tetris_Game
         {
             #region move
 
-            box.move();
-            box2.move();
-            box3.move();
-
             foreach (Block b in boxesCurrent)
             {
+                b.move();
                 if (bottom1.CollisionBottom(b))
                 {
-                    box.YSpeed = 0;
-                    box2.YSpeed = 0;
-                    box3.YSpeed = 0;
-                    
+                    doneBlocks();
 
-                    blockStop = true;
-                    boxes.Add(box);
-                    boxes.Add(box2);
-                    boxes.Add(box3);
-                    boxesCurrent.Remove(box);
-                    boxesCurrent.Remove(box2);
-                    boxesCurrent.Remove(box3);
-                    
                     break;
                 }
             }
@@ -188,17 +175,20 @@ namespace Tetris_Game
 
             if (leftArrowDown == true)
             {
-                box.x -= 50;
-                box2.x -= 50;
-                box3.x -= 50;
-                if ()
+                foreach (Block b in boxesCurrent)
+                {
+                    b.x -= 50;
+
+                }
                 leftArrowDown = false;
             }
             if (rightArrowDown == true)
             {
-                box.x += 50;
-                box2.x += 50;
-                box3.x += 50;
+                foreach (Block b in boxesCurrent)
+                {
+                    b.x += 50;
+
+                }
                 rightArrowDown = false;
             }
 
@@ -250,7 +240,7 @@ namespace Tetris_Game
                     f.Controls.Remove(this);
                     GameOver go = new GameOver();
                     f.Controls.Add(go);
-                        
+
                     go.Focus();
 
                     break;
