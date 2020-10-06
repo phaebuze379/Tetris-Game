@@ -29,7 +29,7 @@ namespace Tetris_Game
         SoundPlayer theme = new SoundPlayer(Properties.Resources.Tetris_theme);
 
         //booleans
-        Boolean leftArrowDown, rightArrowDown, spaceDown, blockStop, reset;
+        Boolean leftArrowDown, rightArrowDown, blockStop, reset;
 
         //creating lists for moving blocks and blocks that are stopped
         List<Block> boxes = new List<Block>(); //stopped blocks
@@ -141,9 +141,6 @@ namespace Tetris_Game
                 case Keys.Right:
                     rightArrowDown = true;
                     break;
-                case Keys.Space:
-                    spaceDown = true;
-                    break;
             }
         }
 
@@ -157,9 +154,6 @@ namespace Tetris_Game
                     break;
                 case Keys.Right:
                     rightArrowDown = false;
-                    break;
-                case Keys.Space:
-                    spaceDown = false;
                     break;
             }
         }
@@ -272,14 +266,6 @@ namespace Tetris_Game
 
                 }
                 rightArrowDown = false;
-            }
-
-            if (spaceDown == true)
-            {
-                foreach (Block b in boxesCurrent)
-                {
-
-                }
             }
 
 
