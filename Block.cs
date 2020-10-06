@@ -9,8 +9,10 @@ namespace Tetris_Game
 {
     class Block
     {
+        //declaring variables
         public int x, y, sizeX, sizeY, YSpeed;
 
+        //making blocks, take input and store
         public Block(int _x, int _y, int _size)
         {
             x = _x;
@@ -30,16 +32,18 @@ namespace Tetris_Game
             YSpeed = 5;
         }
 
+        //move function
         public void move()
         {
             y += YSpeed;
         }
 
+        // collision functions
         public Boolean CollisionBottom(Block b)
         {
             Rectangle box = new Rectangle(b.x, b.y, 50, 50);
-            Rectangle bottom = new Rectangle(0, 545, 830, 20);
-
+            Rectangle bottom = new Rectangle(35, 595, 485, 20);
+            //return collision is true
             return box.IntersectsWith(bottom);
 
         }
@@ -48,7 +52,7 @@ namespace Tetris_Game
         {
             Rectangle box = new Rectangle(b.x, b.y, 50, 50);
             Rectangle left = new Rectangle(50, 0, 15, 977);
-
+            //return collision is true
             return box.IntersectsWith(left);
 
         }
@@ -56,8 +60,8 @@ namespace Tetris_Game
         public Boolean CollisionRight(Block b)
         {
             Rectangle box = new Rectangle(b.x, b.y, 50, 50);
-            Rectangle right = new Rectangle(495, 0, 15, 977);
-
+            Rectangle right = new Rectangle(485, 0, 15, 977);
+            //return collision is true
             return box.IntersectsWith(right);
 
         }
@@ -66,22 +70,10 @@ namespace Tetris_Game
         {
             Rectangle boxRec = new Rectangle(b.x, b.y, 50, 50);
             Rectangle currentRec = new Rectangle(x, y + 5, sizeX, sizeY);
-
+            //return collision is true
             return boxRec.IntersectsWith(currentRec);
 
         }
-
-        //public Boolean CollisionSide(Block b)
-        //{
-        //    //Rectangle boxRec = new Rectangle(b.x, b.y, 50, 50);
-        //    //Rectangle currentRec = new Rectangle(x, y + 5, sizeX, sizeY);
-
-            
-
-        //    // return boxRec.IntersectsWith(currentRec);
-
-        //}
-
 
     }
 }
