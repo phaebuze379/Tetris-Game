@@ -24,7 +24,7 @@ namespace Tetris_Game
         {
             InitializeComponent();
             //don't show instructions
-            label2.Visible = false;
+            label2.Visible = false; 
         }
 
         private void playButton_Click(object sender, EventArgs e)
